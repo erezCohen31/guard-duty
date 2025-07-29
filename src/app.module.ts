@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { ShiftsModule } from './shifts/shifts.module';
+import { AssignmentsController } from './assignments/assignments.controller';
+import { AssignmentsModule } from './assignments/assignments.module';
 
 @Module({
   imports: [
@@ -26,9 +29,11 @@ import { UsersModule } from './users/users.module';
       }),
       inject: [ConfigService],
     }),
+    ShiftsModule,
+    AssignmentsModule,
   ],
 
-  controllers: [AppController],
+  controllers: [AppController, ShController, AssignmentsController],
   providers: [AppService],
 })
 export class AppModule { }

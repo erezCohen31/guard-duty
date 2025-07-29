@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+
+import { User } from './users/user.entity';
+import { Shift } from './shifts/shift.entity';
+import { Assignment } from './assignments/assignment.entity';
+
 import { UsersModule } from './users/users.module';
 import { ShiftsModule } from './shifts/shifts.module';
-import { AssignmentsController } from './assignments/assignments.controller';
 import { AssignmentsModule } from './assignments/assignments.module';
 
 @Module({
@@ -26,14 +28,16 @@ import { AssignmentsModule } from './assignments/assignments.module';
         database: configService.get<string>('DB_DATABASE'),
         autoLoadModels: true,
         synchronize: true,
+        models: [User, Shift, Assignment],
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
     ShiftsModule,
     AssignmentsModule,
   ],
 
-  controllers: [AppController, ShController, AssignmentsController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule { }

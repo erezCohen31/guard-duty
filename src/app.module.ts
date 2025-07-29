@@ -9,6 +9,7 @@ import { Assignment } from './assignments/assignment.entity';
 import { UsersModule } from './users/users.module';
 import { ShiftsModule } from './shifts/shifts.module';
 import { AssignmentsModule } from './assignments/assignments.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AssignmentsModule } from './assignments/assignments.module';
     UsersModule,
     ShiftsModule,
     AssignmentsModule,
+    AuthModule,
   ],
 
   controllers: [],

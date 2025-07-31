@@ -1,6 +1,7 @@
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
 import { Assignment } from '../assignments/assignment.entity';
 import { Optional } from 'sequelize';
+import { Notification } from '../notifications/notifications.entity';
 
 export enum UserRole {
     SOLDIER = 'SOLDIER',
@@ -56,4 +57,8 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
 
     @HasMany(() => Assignment)
     declare assignments: Assignment[];
+
+    @HasMany(() => Notification)
+declare notifications: Notification[];
+
 }

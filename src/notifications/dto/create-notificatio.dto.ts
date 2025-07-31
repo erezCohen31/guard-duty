@@ -16,7 +16,7 @@ export class CreateNotificationDto {
 
     @IsOptional()
     @IsDateString()
-    scheduledAt?: string;
+    scheduledAt?: string | null;
 }
 
 export class MarkAsReadDto {

@@ -1,18 +1,35 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Assignment } from './assignment.entity';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { NotificationService } from '../notifications/notifications.service';
+import { Shift } from '../shifts/shift.entity';
 
 @Injectable()
 export class AssignmentsService {
     constructor(
         @InjectModel(Assignment)
         private assignmentModel: typeof Assignment,
+        @InjectModel(Shift)
+        private shiftModel: typeof Shift,
+        private notificationService: NotificationService,
     ) { }
 
     async create(createAssignmentDto: CreateAssignmentDto): Promise<Assignment> {
-        return this.assignmentModel.create(createAssignmentDto as any);
+        const assignment = await this.assignmentModel.create(createAssignmentDto as any);
+
+        const shift = await this.shiftModel.findByPk(assignment.shiftId);
+
+        await this.notificationService.create({
+            title: 'New Guard Assignment',
+            content: `You have a new guard duty on ${shift?.startTime.toLocaleString()} at ${shift?.location || 'unknown location'}.`,
+            recipientId: assignment.userId,
+            isScheduled: false,
+            scheduledAt: null,
+        });
+
+        return assignment;
     }
 
     async findAll(): Promise<Assignment[]> {

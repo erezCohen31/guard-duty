@@ -5,12 +5,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './users/user.entity';
 import { Shift } from './shifts/shift.entity';
 import { Assignment } from './assignments/assignment.entity';
+import { Notification } from './notifications/notifications.entity';
+
 
 import { UsersModule } from './users/users.module';
 import { ShiftsModule } from './shifts/shifts.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { AuthModule } from './auth/auth.module';
-import { NotificationsModule } from './notifications/notifications.module';
+import { NotificationModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { NotificationsModule } from './notifications/notifications.module';
         database: configService.get<string>('DB_DATABASE'),
         autoLoadModels: true,
         synchronize: true,
-        models: [User, Shift, Assignment],
+        models: [User, Shift, Assignment, Notification],
       }),
       inject: [ConfigService],
     }),
@@ -38,7 +40,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     ShiftsModule,
     AssignmentsModule,
     AuthModule,
-    NotificationsModule,
+    NotificationModule,
   ],
 
   controllers: [],
